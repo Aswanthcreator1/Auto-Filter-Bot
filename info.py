@@ -119,6 +119,28 @@ SPELL_CHECK = is_enabled("SPELL_CHECK", True)
 SHORTLINK = is_enabled('SHORTLINK', False)
 
 
+# for stream
+IS_STREAM = is_enabled('IS_STREAM', True)
+BIN_CHANNEL = environ.get("BIN_CHANNEL", "-1003156084590")
+if len(BIN_CHANNEL) == 0:
+    logger.error('BIN_CHANNEL is missing, exiting now')
+    exit()
+else:
+    BIN_CHANNEL = int(BIN_CHANNEL)
+URL = environ.get("URL", " mongodb+srv://ASMOVIE_DB:ASMOVIE_DB@cluster0.r622dio.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+if len(URL) == 0:
+    logger.error('URL is missing, exiting now')
+    exit()
+else:
+    if URL.startswith(('https://', 'http://')):
+        if not URL.endswith("/"):
+            URL += '/'
+    elif is_valid_ip(URL):
+        URL = f'http://{URL}/'
+    else:
+        logger.error('URL is not valid, exiting now')
+        exit()
+        
 #start command reactions and sticker
 REACTIONS = [reactions for reactions in environ.get('REACTIONS', '🤝 😇 🤗 😍 👍 🎅 😐 🥰 🤩 😱 🤣 😘 👏 😛 😈 🎉 ⚡️ 🫡 🤓 😎 🏆 🔥 🤭 🌚 🆒 👻 😁').split()]  # Multiple reactions can be used separated by space
 STICKERS = [sticker for sticker in environ.get('STICKERS', 'CAACAgIAAxkBAAEN4ctnu1NdZUe21tiqF1CjLCZW8rJ28QACmQwAAj9UAUrPkwx5a8EilDYE CAACAgIAAxkBAAEN1pBntL9sz1tuP_qo0bCdLj_xQa28ngACxgEAAhZCawpKI9T0ydt5RzYE').split()]  # Multiple sticker can be used separated by space, use @idstickerbot for get sticker id
